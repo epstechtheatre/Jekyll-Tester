@@ -51,10 +51,8 @@ jobs:
     - name: Commit
       run: |
         git add dist
-        git add config.json
         git add package.json
         git add package-lock.json
-        git add Procfile
         git add .gitignore
         git add tsconfig.production.json
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
