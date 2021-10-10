@@ -9,7 +9,6 @@ jobs:
   tscprod:
     name: Compile and push to prod
     runs-on: ubuntu-latest
-    needs: 'npmversion'
     steps:
     - name: Checkout
       uses: actions/checkout@v2
