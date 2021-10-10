@@ -17,6 +17,8 @@ async function run() {
         return; 
     }
 
+    console.log(`Running with cwd: ${working}`);
+
     installJekyllBundler();
 
     function installJekyllBundler() {
