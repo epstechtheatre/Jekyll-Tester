@@ -1,0 +1,30 @@
+{
+    "display": "Node 16",
+
+    "compilerOptions": {
+        "module": "commonjs",
+        "strict": true,
+        "jsx": "preserve",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "target": "ES2021",
+        "lib": ["ES2021"],
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "allowJs": false,
+        "outDir": "build",
+        "moduleResolution": "Node",
+        "removeComments": false,
+        "noImplicitOverride": true
+    },
+    "exclude": [
+        "node_modules",
+        ".vscode",
+        "meta"
+    ],
+    "include": [
+        "src/**/*"
+    ]
+}

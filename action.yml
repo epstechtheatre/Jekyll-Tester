@@ -1,0 +1,15 @@
+name: "Jekyll Tester"
+description: "Test PRs for Jekyll Static Sites. Ruby must already be installed"
+author: "EPS Technical Theatre"
+inputs:
+  path:
+    description: "The subfolder the page is built from, if not root"
+    required: false
+
+outputs:
+  success:
+    description: "Whether or not the site built successfully"
+
+runs:
+  using: "node16"
+  main: "dist/index.js"

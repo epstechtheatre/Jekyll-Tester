@@ -1,0 +1,67 @@
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "src/**/*"
+
+concurrency: main
+
+jobs:
+  npmversion:
+    name: Bump NPM Version
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: '${{ github.ref }}'
+    - name: "Version Bump"
+      uses: "phips28/gh-action-bump-version@master"
+      with:
+        tag-prefix: 'v'
+
+        minor-wording:  'add,Adds,new,feat,remove'
+        major-wording:  'MAJOR,BREAKING'
+        patch-wording:  'patch,fix,tests,chore,refactor,update,fixes,patches,updates,clean'
+
+        target-branch: "main"
+        commit-message: 'CI: Bump version to {{version}} [skip ci]'
+
+  tscprod:
+    name: Compile and push to prod
+    runs-on: ubuntu-latest
+    needs: 'npmversion'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: '${{ github.ref }}'
+
+    - name: install node v16
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: npm install
+      run: npm install
+    - name: tsc
+      run: | 
+        npm install -g typescript
+        tsc --project tsconfig.production.json
+    - name: Commit
+      run: |
+        git add dist
+        git add config.json
+        git add package.json
+        git add package-lock.json
+        git add Procfile
+        git add .gitignore
+        git add tsconfig.production.json
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Deploy from Main"
+    - name: Push to Prod
+      uses: ad-m/github-push-action@master
+      with:
+        branch: 'prod'
+        force: true
