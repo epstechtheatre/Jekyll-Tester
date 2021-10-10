@@ -1,6 +1,6 @@
 {
   "name": "jekyll-tester",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Test to ensure PRs to Jekyll Static sites will successfully build",
   "main": "index.js",
   "scripts": {
