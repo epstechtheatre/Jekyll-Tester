@@ -1,5 +1,5 @@
 {
-    "display": "Node 16",
+    "display": "Node 12",
 
     "compilerOptions": {
         "module": "commonjs",
@@ -7,8 +7,8 @@
         "jsx": "preserve",
         "sourceMap": false,
         "noImplicitAny": true,
-        "target": "ES2021",
-        "lib": ["ES2021"],
+        "target": "ES2019",
+        "lib": ["ES2019"],
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
