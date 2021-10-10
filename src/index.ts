@@ -17,30 +17,37 @@ async function run() {
         return; 
     }
 
-    //Setup jekyll and ruby
-    const jekyllInstall = exec('gems install jekyll bundler', {
-        cwd: working
-    }, (err, stdout) => {
-        if (stdout) {
-            if (stdout.search("Bundle complete!")) {
-                jekyllInstall.off("exit", unexpectedGemExit);
-                jekyllInstall.on("exit", installGemfileGems);
+    function installJekyllBundler() {
+        let success = false;
+        //Setup jekyll and ruby
+        const jekyllInstall = exec('gems install jekyll bundler', {
+            cwd: working
+        }, (err, stdout) => {
+            if (stdout && !success) {
+                if (stdout.search("Bundle complete!")) {
+                    jekyllInstall.off("exit", unexpectedGemExit);
+                    jekyllInstall.on("exit", installGemfileGems);
+
+                    success = true;
+                }
             }
-        }
-    })
-    jekyllInstall.on("exit", unexpectedGemExit);
-    jekyllInstall.stderr?.pipe(process.stderr)
-    jekyllInstall.stdout?.pipe(process.stdout);
+        })
+        jekyllInstall.on("exit", unexpectedGemExit);
+        jekyllInstall.stderr?.pipe(process.stderr)
+        jekyllInstall.stdout?.pipe(process.stdout);
+    }
 
     function installGemfileGems() {
+        let success = false;
         //Setup gemfile
         const installGems = exec("bundle install", {
             cwd: working
         }, (err, stdout) => {
-            if (stdout) {
+            if (stdout && !success) {
                 if (stdout.search("Bundle complete!")) {
                     installGems.off("exit", unexpectedGemExit);
                     installGems.on("exit", runJekyll);
+                    success = true;
                 }
             }
         });
@@ -63,7 +70,7 @@ async function run() {
         jekyllProcess.on("exit", unexpectedJekyllExit)
         jekyllProcess.stderr.pipe(process.stderr);
         jekyllProcess.stdout.on("data", (data) => {
-            if (data.toString().toLowerCase().search("server running") !== -1 && !success) {
+            if (data.toString().search("Server running...") !== -1 && !success) {
                 jekyllProcess.off("exit", unexpectedJekyllExit);
                 success = true;
 
