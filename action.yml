@@ -11,5 +11,5 @@ outputs:
     description: "Whether or not the site built successfully"
 
 runs:
-  using: "node16"
+  using: "node12"
   main: "dist/index.js"
