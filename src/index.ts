@@ -29,6 +29,7 @@ async function run() {
     jekyllInstall.stdout?.pipe(process.stdout);
 
     jekyllInstall.on("exit", () => {
+        //Setup gemfile
         const installGems = exec("bundle install", {
             cwd: working
         });
@@ -42,6 +43,7 @@ async function run() {
                 core.setFailed("Jekyll Failed to Launch")
             }
 
+            //Attempt to run jekyll, register an onExit function that will be disabled if we detect that the website is working
             const jekyllProcess = spawn(`bundle`, [`exec`, `jekyll`, `serve`], {
                 cwd: working
             });
