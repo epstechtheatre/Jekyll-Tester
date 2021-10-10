@@ -23,7 +23,6 @@ async function run() {
     }, (err, stdout, stdin) => {
         if (err) {
             core.setFailed("Failed to install Jekyll, Bundler");
-            process.exit(1);
         }
     })
     jekyllInstall.stderr?.pipe(process.stderr)
