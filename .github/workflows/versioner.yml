@@ -23,5 +23,5 @@ jobs:
         major-wording:  'MAJOR,BREAKING'
         patch-wording:  'patch,fix,tests,chore,refactor,update,fixes,patches,updates,clean'
 
-        target-branch: "main"
+        target-branch: "prod"
         commit-message: 'CI: Bump version to {{version}} [skip ci]'
