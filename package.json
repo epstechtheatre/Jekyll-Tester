@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/epstechtheatre/Jekyll-Tester.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "EPS Tech Theatre",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/epstechtheatre/Jekyll-Tester/issues"
   },
