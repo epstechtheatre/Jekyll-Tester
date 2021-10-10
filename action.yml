@@ -1,6 +1,8 @@
 name: "Jekyll Tester"
 description: "Test PRs for Jekyll Static Sites. Ruby must already be installed"
 author: "EPS Technical Theatre"
+icon: book
+color: orange
 inputs:
   path:
     description: "The subfolder the page is built from, if not root"
