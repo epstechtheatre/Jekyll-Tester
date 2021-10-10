@@ -6,7 +6,7 @@ You must have Ruby, and Node 12+ installed in your workflow before running this 
 Add to your file with the following:
 ```yml
 - name: Test Jekyll
-  uses: epstechtheatre/Jekyll-Tester@v1.1.0
+  uses: epstechtheatre/Jekyll-Tester@v1.2.0
   with:
     path: your/optional/path
   env:
@@ -39,9 +39,9 @@ jobs:
           node-version: 16
 
       - name: Test Jekyll
-        uses: epstechtheatre/Jekyll-Tester@v1.1.0
+        uses: epstechtheatre/Jekyll-Tester@v1.2.0
         with:
-          path: docs/
+          path: your/optional/path
         env:
           LC_ALL: "C.UTF-8"
           LANG: "en_US.UTF-8"
