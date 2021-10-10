@@ -17,6 +17,8 @@ async function run() {
         return; 
     }
 
+    installJekyllBundler();
+
     function installJekyllBundler() {
         let success = false;
         //Setup jekyll and ruby
