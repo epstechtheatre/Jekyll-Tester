@@ -26,6 +26,7 @@ async function run() {
             process.exit(1);
         }
     })
+    jekyllInstall.stderr?.pipe(process.stderr)
     jekyllInstall.stdout?.pipe(process.stdout);
 
     jekyllInstall.on("exit", () => {
