@@ -20,46 +20,62 @@ async function run() {
     //Setup jekyll and ruby
     const jekyllInstall = exec('gems install jekyll bundler', {
         cwd: working
-    }, (err, stdout, stdin) => {
-        if (err) {
-            core.setFailed("Failed to install Jekyll, Bundler");
+    }, (err, stdout) => {
+        if (stdout) {
+            if (stdout.search("Bundle complete!")) {
+                jekyllInstall.off("exit", unexpectedGemExit);
+                jekyllInstall.on("exit", installGemfileGems);
+            }
         }
     })
+    jekyllInstall.on("exit", unexpectedGemExit);
     jekyllInstall.stderr?.pipe(process.stderr)
     jekyllInstall.stdout?.pipe(process.stdout);
 
-    jekyllInstall.on("exit", () => {
+    function installGemfileGems() {
         //Setup gemfile
         const installGems = exec("bundle install", {
             cwd: working
+        }, (err, stdout) => {
+            if (stdout) {
+                if (stdout.search("Bundle complete!")) {
+                    installGems.off("exit", unexpectedGemExit);
+                    installGems.on("exit", runJekyll);
+                }
+            }
         });
+        installGems.on("exit", unexpectedGemExit);
 
         installGems.stdout?.pipe(process.stdout);
         installGems.stderr?.pipe(process.stderr);
+    }
 
-        installGems.on("exit", () => {
-            let success = false;
-            function unexpectedExit() {
-                core.setFailed("Jekyll Failed to Launch")
+    function runJekyll () {
+        function unexpectedJekyllExit() {
+            core.setFailed("Failed to build Jekyll site")
+        }
+        let success = false;
+
+        //Attempt to run jekyll, register an onExit function that will be disabled if we detect that the website is working
+        const jekyllProcess = spawn(`bundle`, [`exec`, `jekyll`, `serve`], {
+            cwd: working
+        });
+        jekyllProcess.on("exit", unexpectedJekyllExit)
+        jekyllProcess.stderr.pipe(process.stderr);
+        jekyllProcess.stdout.on("data", (data) => {
+            if (data.toString().toLowerCase().search("server running") !== -1 && !success) {
+                jekyllProcess.off("exit", unexpectedJekyllExit);
+                success = true;
+
+                jekyllProcess.kill();
+                core.setOutput("success", true);
             }
-
-            //Attempt to run jekyll, register an onExit function that will be disabled if we detect that the website is working
-            const jekyllProcess = spawn(`bundle`, [`exec`, `jekyll`, `serve`], {
-                cwd: working
-            });
-            jekyllProcess.on("exit", unexpectedExit)
-            jekyllProcess.stderr.pipe(process.stderr);
-            jekyllProcess.stdout.on("data", (data: string) => {
-                if (data.toLowerCase().search("server running") !== -1 && !success) {
-                    jekyllProcess.off("exit", unexpectedExit);
-                    success = true;
-
-                    jekyllProcess.kill();
-                    core.setOutput("success", true);
-                }
-            })
         })
-    })
+    }
+}
+
+function unexpectedGemExit() {
+    core.setFailed("Failed to Install Gems, Bundle, or Jekyll")
 }
 
 run();
