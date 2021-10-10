@@ -6,26 +6,6 @@ on:
 concurrency: main
 
 jobs:
-  npmversion:
-    name: Bump NPM Version
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        ref: '${{ github.ref }}'
-    - name: "Version Bump"
-      uses: "phips28/gh-action-bump-version@master"
-      with:
-        tag-prefix: 'v'
-
-        minor-wording:  'add,Adds,new,feat,remove'
-        major-wording:  'MAJOR,BREAKING'
-        patch-wording:  'patch,fix,tests,chore,refactor,update,fixes,patches,updates,clean'
-
-        target-branch: "main"
-        commit-message: 'CI: Bump version to {{version}} [skip ci]'
-
   tscprod:
     name: Compile and push to prod
     runs-on: ubuntu-latest
