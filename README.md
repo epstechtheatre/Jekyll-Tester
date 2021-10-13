@@ -1,4 +1,4 @@
-# Jekyll-Tester
+# Jekyll Tester
 Test to ensure PRs to Jekyll Static sites will successfully build
 
 You must have Ruby, and Node 12+ installed in your workflow before running this action
