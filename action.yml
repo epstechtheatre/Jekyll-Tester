@@ -1,5 +1,5 @@
 name: "Jekyll Tester"
-description: "Test PRs for Jekyll Static Sites. Ruby must already be installed"
+description: "Test PRs for Jekyll Static Sites to ensure contributions build successfully"
 author: "EPS Technical Theatre"
 branding:
   icon: 'book'
