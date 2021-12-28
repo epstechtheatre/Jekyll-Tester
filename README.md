@@ -18,7 +18,7 @@ Add to your file with the following:
 Full workflow example:
 ```yml
 name: Jekyll Tester
-on: [pull_request_target]
+on: [pull_request]
 
 jobs:
   Test:
